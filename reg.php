@@ -1,0 +1,110 @@
+
+<!DOCTYPE html>
+<!-- === Coding by CodingLab | www.codinglabweb.com === -->
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <!-- ===== Iconscout CSS ===== -->
+    <link rel="stylesheet" href="https://unicons.iconscout.com/release/v4.0.0/css/line.css">
+
+    <!-- ===== CSS ===== -->
+    <link rel="stylesheet" href="style1.css">
+         
+    <!--<title>Login & Registration Form</title>-->
+</head>
+<body>
+    
+    <div class="container" style="height:500px;">
+        <div class="forms">
+            <div class="form login">
+                <span class="title">Register</span>
+
+                <form action="#" method="POST">
+                    <div class="input-field">
+						<input type="text" name="name" placeholder="Enter your Name" pattern="[A-Za-z]+" title="only letters" required/>
+                        <i class="uil uil-user icon"></i>
+                    </div>
+                    <div class="input-field">
+                        <input type="email" name="email"  placeholder="Enter your email" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$" title="xyz@something.com" required/>
+                        <i class="uil uil-envelope icon"></i>
+                    </div>
+                    <div class="input-field">
+                        <input type="text" name="phone"  placeholder="Enter your Phone" maxlength="15" placeholder="Contact  Number"  value="+91 &nbsp;" required/>
+                        <i class="uil uil-phone icon"></i>
+                    </div>
+                    <div class="input-field">
+                        <input type="password" name="password"  class="password" placeholder="Enter your password" required>
+                        <i class="uil uil-lock icon"></i>
+                        <i class="uil uil-eye-slash showHidePw"></i>
+                    </div>
+
+                    <div class="checkbox-text">
+                        <div class="checkbox-content">
+                            <input type="checkbox" id="termCon" required>
+                            <label for="termCon" class="text">I accepted all terms and conditions</label>
+                        </div>
+                    </div>
+                    <div class="input-field button">
+                        <input type="submit" name="reg" value="Register">
+                    </div>
+                </form>
+<?php
+if(isset($_POST['reg']))
+{
+    error_reporting(1);
+    include("config.php");
+    
+    $email=$_POST['email'];
+
+    $sql = "select * from user where email='$email'";
+    $result = mysqli_query($con,$sql);
+    $count=mysqlI_num_rows($result);
+
+
+    if($count>0)
+    {
+        
+        echo "<script>
+                alert('There is an existing account associated with this email.');
+            </script>";
+            echo "<script> location.href='login.php'; </script>";
+    }
+    else
+    {
+        $name=$_POST['name'];
+        $phone=$_POST['phone'];
+        $password=$_POST['password'];
+    
+        
+
+        $query = "insert into user(name,email,phone,password) values('".$name."','".$email."','".$phone."','".$password."')";
+           
+            if(mysqli_query($con,$query))
+            {
+        
+        
+        echo "<script>
+                alert('Registeration Completed, Please Login.');
+            </script>";
+            echo "<script> location.href='login.php'; </script>";
+            }
+    }
+}
+?>
+                <div class="login-signup">
+                    <span class="text">Already a member?
+                        <a href="login.php" class="text signup-link">Login Now</a>
+                    </span>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+
+</body>
+</html>
